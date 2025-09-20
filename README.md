@@ -12,7 +12,4 @@ Required packages (not preinstalled):
 <br>
 instalation:
 <br>
-```pip3 install requests
-git clone https://github.com/bot910/butils.git
-cd ./butils
-```
+<pre> ``` print("Hello, world!") ``` </pre>
