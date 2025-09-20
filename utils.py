@@ -55,7 +55,19 @@ def advanced_edit_file(file_path: str, option, extra):
         with open(file_path, 'a') as file:
             return file.write(extra)
     elif option in ('rm', 'dl', 'remove', 'delete'):
-        pass
+        if type(extra) == int:
+            with open(file_path, 'r', encoding='utf-8') as text:
+                content = text.read()
+            if len(content) >= extra:
+                content = content[:-extra]
+                with open(file_path, 'w', encoding='utf-8') as text:
+                    text.write(content)
+            else:
+                raise ArithmeticError("Cannot remove less characters that the file itself is.")
+        elif type(extra) == str:
+            pass
+        else:
+            raise TypeError("wrong type inputted")
     elif option in ('du', 'dp', 'duplicate', 'copy'):
         if not extra:
             raise ValueError("Destination path must be provided for duplicate operation.")
@@ -90,4 +102,5 @@ advanced_edit_file("example.txt", "ap", "\nThis is an appended line.")
 print(edit_file("example.txt", "rd"))
 wait(2)
 advanced_edit_file("example.txt", "du", "example_copy.txt")
+advanced_edit_file("example_copy.txt", "rm", 400)
 print(edit_file("example_copy.txt", "rd"))
