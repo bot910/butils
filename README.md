@@ -6,6 +6,11 @@ A python3 basic utility library
 Developed and tested on Ubuntu 24.04, with all packages installed.
 <br>
 <br>
-Required packages:
- - time
- - sys
+Required packages (not preinstalled):
+ - requests
+
+<br>
+instalation:
+'''pip3 install requests
+git clone https://github.com/bot910/butils.git
+cd ./butils'''
