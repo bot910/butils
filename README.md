@@ -16,3 +16,9 @@ instalation:
 pip3 install requests
 python3 -m pip install git+https://github.com/bot910/butils.git
 </pre>
+
+Uninstallation:
+<br>
+<pre>
+python3 -m pip uninstall packagename
+</pre>
