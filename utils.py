@@ -35,7 +35,7 @@ def exit_program():
     sys.exit()
 
 #file utils
-def edit_file(file_path: str, option: Literal['rd', 're', 'cr', 'mk', 'de', 'rm', 'read', 'get', 'write', 'replace', 'append', 'add', 'create', 'make', 'delete', 'remove']): 
+def edit_file(file_path: str, option: Literal['rd', 're', 'cr', 'mk', 'de', 'rm', 'read', 'get', 'create', 'make', 'delete', 'remove']): 
     if option in ('rd', 're', 'read', 'get'):
         with open(file_path, 'r') as file:
             return file.read()
@@ -47,30 +47,26 @@ def edit_file(file_path: str, option: Literal['rd', 're', 'cr', 'mk', 'de', 'rm'
     else:
         raise ValueError("Invalid file option.")
     
-def advanced_edit_file(file_path: str, option, extra: str = ''):
-    if option in ('du', 'dp', 'duplicate', 'copy'):
-        if not extra:
-            raise ValueError("Destination path must be provided for duplicate operation.")
-        shutil.copy(file_path, extra)
-        return extra
-    elif option in ('wr', 'rp' 'write', 'replace'):
+def advanced_edit_file(file_path: str, option, extra):
+    if option in ('wr', 'rp' 'write', 'replace'):
         with open(file_path, 'w') as file:
             return file.write(extra)
     elif option in ('ap', 'ad', 'append', 'add'):
         with open(file_path, 'a') as file:
             return file.write(extra)
+    elif option in ('rm', 'dl', 'remove', 'delete'):
+        pass
+    elif option in ('du', 'dp', 'duplicate', 'copy'):
+        if not extra:
+            raise ValueError("Destination path must be provided for duplicate operation.")
+        shutil.copy(file_path, extra)
     elif option in ('mv', 'mo', 'move'):
         if not extra:
             raise ValueError("Destination path must be provided for move operation.")
         shutil.move(file_path, extra)
-        return extra
-
 
 def file_exists(file_path: str): 
     return os.path.isfile(file_path)
-
-
-
 
 #network utils
 def fetch_json(url: str):
