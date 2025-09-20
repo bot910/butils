@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import shutil
 import random
 import requests
 from typing import Literal
@@ -34,16 +35,10 @@ def exit_program():
     sys.exit()
 
 #file utils
-def edit_file(file_path: str, option: Literal['rd', 're', 'wr', 'rp', 'ap', 'ad', 'cr', 'mk', 'de', 'rm', 'read', 'get', 'write', 'replace', 'append', 'add', 'create', 'make', 'delete', 'remove']): 
+def edit_file(file_path: str, option: Literal['rd', 're', 'cr', 'mk', 'de', 'rm', 'read', 'get', 'write', 'replace', 'append', 'add', 'create', 'make', 'delete', 'remove']): 
     if option in ('rd', 're', 'read', 'get'):
         with open(file_path, 'r') as file:
             return file.read()
-    elif option in ('wr', 'rp' 'write', 'replace'):
-        with open(file_path, 'w') as file:
-            return file.write('')
-    elif option in ('ap', 'ad', 'append', 'add'):
-        with open(file_path, 'a') as file:
-            return file.write('')
     elif option in ('cr', 'mk', 'create', 'make'):
         with open(file_path, 'x') as file:
             return file.write('')
@@ -52,6 +47,23 @@ def edit_file(file_path: str, option: Literal['rd', 're', 'wr', 'rp', 'ap', 'ad'
     else:
         raise ValueError("Invalid file option.")
     
+def advanced_edit_file(file_path: str, option, extra: str = ''):
+    if option in ('du', 'dp', 'duplicate', 'copy'):
+        if not extra:
+            raise ValueError("Destination path must be provided for duplicate operation.")
+        shutil.copy(file_path, extra)
+        return extra
+    elif option in ('wr', 'rp' 'write', 'replace'):
+        with open(file_path, 'w') as file:
+            return file.write(extra)
+    elif option in ('ap', 'ad', 'append', 'add'):
+        with open(file_path, 'a') as file:
+            return file.write(extra)
+    elif option in ('mv', 'mo', 'move'):
+        if not extra:
+            raise ValueError("Destination path must be provided for move operation.")
+        shutil.move(file_path, extra)
+        return extra
 
 
 def file_exists(file_path: str): 
@@ -73,3 +85,13 @@ def download_file(url: str, dest: str):
     response = requests.get(url)
     with open(dest, 'wb') as file:
         file.write(response.content)
+
+
+edit_file("example.txt", "mk")
+advanced_edit_file("example.txt", "wr", "Hello, World!")
+print(edit_file("example.txt", "rd"))
+advanced_edit_file("example.txt", "ap", "\nThis is an appended line.")
+print(edit_file("example.txt", "rd"))
+wait(2)
+advanced_edit_file("example.txt", "du", "example_copy.txt")
+print(edit_file("example_copy.txt", "rd"))
