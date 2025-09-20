@@ -102,4 +102,10 @@ def download_file(url: str, dest: str):
     with open(dest, 'wb') as file:
         file.write(response.content)
 
-print("test")
+def post_data(url: str, data: dict, headers: dict = None):
+    if headers is None:
+        headers = {'Content-Type': 'application/json'}
+    else:
+        headers.setdefault('Content-Type', 'application/json')
+    response = requests.post(url, json=data, headers=headers)
+    return response
