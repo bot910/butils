@@ -20,5 +20,5 @@ python3 -m pip install git+https://github.com/bot910/butils.git
 Uninstallation:
 <br>
 <pre>
-python3 -m pip uninstall packagename
+python3 -m pip uninstall butils
 </pre>
