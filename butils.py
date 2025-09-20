@@ -101,3 +101,5 @@ def download_file(url: str, dest: str):
     response = requests.get(url)
     with open(dest, 'wb') as file:
         file.write(response.content)
+
+print("test")
