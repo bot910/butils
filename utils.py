@@ -1,6 +1,7 @@
 import os
 import time
 import random
+import requests
 
 def wait(amount):
     time.sleep(amount)
@@ -23,3 +24,8 @@ def random_string(length):
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+def download_file(url, dest):
+    response = requests.get(url)
+    with open(dest, 'wb') as file:
+        file.write(response.content)
