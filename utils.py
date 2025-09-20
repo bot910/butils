@@ -36,25 +36,26 @@ def exit_program():
 
 #file utils
 def edit_file(file_path: str, option: Literal['rd', 're', 'cr', 'mk', 'de', 'rm', 'read', 'get', 'create', 'make', 'delete', 'remove']): 
-    if option in ('rd', 're', 'read', 'get'):
+    if option in ('rd', 're', 'read', 'get'): #read file
         with open(file_path, 'r') as file:
             return file.read()
-    elif option in ('cr', 'mk', 'create', 'make'):
+    elif option in ('cr', 'mk', 'create', 'make'): #create file
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, 'x') as file:
-            return file.write('')
-    elif option in ('de', 'rm', 'delete', 'remove'):
+            file.write('')
+    elif option in ('de', 'rm', 'delete', 'remove'): #delete file
         os.remove(file_path)
     else:
         raise ValueError("Invalid file option.")
     
 def advanced_edit_file(file_path: str, option, extra):
-    if option in ('wr', 'rp' 'write', 'replace'):
+    if option in ('wr', 'rp' 'write', 'replace'): #write file
         with open(file_path, 'w') as file:
             return file.write(extra)
-    elif option in ('ap', 'ad', 'append', 'add'):
+    elif option in ('ap', 'ad', 'append', 'add'): #append file
         with open(file_path, 'a') as file:
             return file.write(extra)
-    elif option in ('rm', 'dl', 'remove', 'delete'):
+    elif option in ('rm', 'dl', 'remove', 'delete'): #delete in file
         if type(extra) == int:
             with open(file_path, 'r', encoding='utf-8') as text:
                 content = text.read()
@@ -65,17 +66,24 @@ def advanced_edit_file(file_path: str, option, extra):
             else:
                 raise ArithmeticError("Cannot remove less characters that the file itself is.")
         elif type(extra) == str:
-            pass
+            with open(file_path, 'r', encoding='utf-8') as text:
+                content = text.read()
+            content =  content.replace(extra, "")
+            with open(file_path, 'w', encoding='utf-8') as text:
+                text.write(content)
         else:
             raise TypeError("wrong type inputted")
-    elif option in ('du', 'dp', 'duplicate', 'copy'):
+    elif option in ('du', 'dp', 'duplicate', 'copy'): #duplicate file
         if not extra:
             raise ValueError("Destination path must be provided for duplicate operation.")
+        os.makedirs(os.path.dirname(extra), exist_ok=True)
         shutil.copy(file_path, extra)
-    elif option in ('mv', 'mo', 'move'):
+    elif option in ('mv', 'mo', 'move'): #move file
         if not extra:
             raise ValueError("Destination path must be provided for move operation.")
-        shutil.move(file_path, extra)
+        else:
+            os.makedirs(os.path.dirname(extra), exist_ok=True)
+            shutil.move(file_path, extra)
 
 def file_exists(file_path: str): 
     return os.path.isfile(file_path)
@@ -94,13 +102,5 @@ def download_file(url: str, dest: str):
     with open(dest, 'wb') as file:
         file.write(response.content)
 
-
-edit_file("example.txt", "mk")
-advanced_edit_file("example.txt", "wr", "Hello, World!")
-print(edit_file("example.txt", "rd"))
-advanced_edit_file("example.txt", "ap", "\nThis is an appended line.")
-print(edit_file("example.txt", "rd"))
-wait(2)
-advanced_edit_file("example.txt", "du", "example_copy.txt")
-advanced_edit_file("example_copy.txt", "rm", 400)
-print(edit_file("example_copy.txt", "rd"))
+edit_file("/home/nils/bin/programming/python/packages/bob/test.txt","create")
+advanced_edit_file("/home/nils/bin/programming/python/packages/bob/test.txt","copy","/home/nils/bin/programming/python/packages/test/files/test.txt")
