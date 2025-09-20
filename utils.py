@@ -25,6 +25,15 @@ def random_string(length):
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+
+def fetch_json(url):
+    response = requests.get(url)
+    return response.json()
+
+def fetch_text(url):
+    response = requests.get(url)
+    return response.text
+    
 def download_file(url, dest):
     response = requests.get(url)
     with open(dest, 'wb') as file:
