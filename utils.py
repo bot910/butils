@@ -3,9 +3,10 @@ import sys
 import time
 import random
 import requests
+from typing import Literal
 
 #time utils
-def wait(amount):
+def wait(amount: int):
     time.sleep(amount)
 
 def current_time_millis():
@@ -33,13 +34,23 @@ def exit_program():
     sys.exit()
 
 #file utils
-def read_file(file_path):
-    with open(file_path, 'r') as file:
-        return file.read()
-    
-def write_file(file_path, content):
-    with open(file_path, 'w') as file:
-        file.write(content)
+def edit_file(file_path: str, option: Literal['r', 'read', 'w', 'write', 'replace', 'a', 'append', 'c', 'create', 'd', 'delete']): 
+    if option == 'r' or 'read':
+        with open(file_path, 'r') as file:
+            return file.read()
+    elif option == 'w' or 'write' or 'replace':
+        with open(file_path, 'w') as file:
+            return file.write()
+    elif option == 'a' or 'append':
+        with open(file_path, 'a') as file:
+            return file.write()
+    elif option == 'c' or 'create':
+        with open(file_path, 'x') as file:
+            return file.write()
+    elif option == 'd' or 'delete':
+        os.remove(file_path)
+    else:
+        raise ValueError("Invalid option. Use 'r', 'w', or 'a'.")
 
 #network utils
 def fetch_json(url):
@@ -55,4 +66,4 @@ def download_file(url, dest):
     with open(dest, 'wb') as file:
         file.write(response.content)
 
-print(read_file('butils/LICENSE'))  # Example usage
+wait(0.5)
