@@ -14,6 +14,5 @@ instalation:
 <br>
 <pre>
 pip3 install requests
-git clone https://github.com/bot910/butils.git
-cd ./butils
+python3 -m pip install git+https://github.com/bot910/butils.git
 </pre>
